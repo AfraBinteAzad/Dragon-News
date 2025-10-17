@@ -6,6 +6,7 @@ export const router = createBrowserRouter([
   {
     path:"/",
     Component:HomeLayout,
-    errorElement:<Error></Error>
+    errorElement:<Error></Error>,
+    loader:()=>fetch('/news.json')
   },
 ]);
