@@ -2,8 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import save from "../../assets/save-instagram.png"
 import share from "../../assets/share.png"
+import star from "../../assets/star.png"
+import eye from "../../assets/view.png"
+
+
+
 export default function CategoryNews() {
   const {id}=useParams()
+  const [expanded, setExpanded] = useState(false)
   const [category,setcategory]=useState([])
   useEffect(() => {
     fetch('/news.json')
@@ -20,9 +26,19 @@ export default function CategoryNews() {
       })
       .catch(err => console.error('Error fetching categories:', err))
   }, [id])
+
+   const current =new Date()
+    const format=current.toLocaleDateString('en-US',
+        {
+            weekday:'long',
+            year:'numeric',
+            month:'long',
+            day:'numeric'
+        }
+    )
   console.log(category)
   return (
-    <div>
+    <div className='justify-center items-center'>
       
        {category.length > 0 ? (
         category.map(news => (
@@ -44,11 +60,53 @@ export default function CategoryNews() {
   </div>
   <div className="card-body">
     <h2 className="card-title">{news.title}</h2>
-    <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
-    <div className="card-actions justify-end">
-      <button className="btn btn-primary">Buy Now</button>
-    </div>
+    <img src={news.image_url} alt="" className='rounded-xl'/>
+   <div>
+    <p className='text-gray-500 font-Poppins font-medium text-left'>
+    {format} 
+    </p>
+    <p className='text-gray-500 font-Poppins font-semibold text-left'>
+     Tags: {news.tags.map((tag, index) => (
+    <span key={index}>
+      {tag}{index < news.tags.length - 1 && ', '}
+    </span>
+  ))}
+    </p>
+  <p
+        className={`text-gray-700 text-sm font-Poppins transition-all duration-200 ${
+          expanded ? '' : 'line-clamp-4'
+        }`}
+      >
+        {news.details}
+      </p>
+      <button
+        onClick={() => setExpanded(!expanded)}
+        className="text-red-600 font-medium mt-2 hover:underline"
+      >
+        {expanded ? 'Read Less' : 'Read More'}
+      </button>
+
+   <div className='flex justify-between w-full items-center m-2'>
+     <div className='flex gap-2'>
+    {Array.from({ length: news.rating.number }, (_, i) => (
+    <img 
+      key={i} 
+      src={star} 
+      alt="star" 
+      className='w-[20px] h-[20px]' 
+    />
+  ))}
+    <p>{news.rating.number}</p>
+  </div> 
+  <div className='flex gap-2'>
+   <img src={eye} alt="" className='w-[20px] h-[20px]'/>
+   <p>{news.total_view}</p>
   </div>
+  </div>  
+   </div>
+   
+  </div>
+ 
 </div>
            
           </div>
