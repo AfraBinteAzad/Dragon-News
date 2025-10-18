@@ -16,7 +16,7 @@ export default function HomeLayout() {
     <nav>
         <Navbar></Navbar>
     </nav>
-     <main className='flex m-4 gap-3'>
+     <main className='max-w-[1200px] mx-auto flex gap-3'>
         <section className='left-nav'>
             <Left category={category}></Left>
         </section>

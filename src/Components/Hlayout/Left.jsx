@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router';
 
 export default function Left({ category }) {
   const [select,setselect]=useState(null)
+  const nav=useNavigate()
   const handleclick=(id)=>{
 
     setselect(id)
+    nav(`/category/${id}`)
 
   }
   return (

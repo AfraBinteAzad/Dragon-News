@@ -26,11 +26,12 @@ export const router = createBrowserRouter([
     children:[
         {
             path:'/',
-            Component:Home,
+            element:<Home></Home>,
         },
         {
-            path:'/category/:id',
-            Component:CategoryNews,
+           path:'/category/:id',
+           loader: () => fetch('/categories.json'),
+           element:<CategoryNews></CategoryNews>,
         }
     ]
     
